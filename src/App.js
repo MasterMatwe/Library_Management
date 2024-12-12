@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import Login from './Components/Login.js';
-import Register from './Components/Register.js';
+import Auth from './Components/Auth';
 
 function App() {
   return (
@@ -10,8 +9,7 @@ function App() {
         <h1>Library Management System</h1>
       </header>
       <main>
-        <Login />
-        <Register />
+        <Auth />
       </main>
     </div>
   );

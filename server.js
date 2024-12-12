@@ -42,7 +42,7 @@ app.post('/api/register', async (req, res) => {
     res.json({ success: true, message: 'Registration successful' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Change name ' });
   }
 });
 

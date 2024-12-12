@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:5000/api/login', {
@@ -16,6 +16,10 @@ function Login() {
       if (data.success) {
         alert('Login successful');
         // TODO: Implement redirect or state update
+        // For example:
+        // history.push('/dashboard'); // if using react-router
+        // or
+        // setUser(data.user); // if using a global state management
       } else {
         alert(data.message);
       }
@@ -23,30 +27,28 @@ function Login() {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');
     }
-  };
+  }, [username, password]);
 
   return (
-    <div className="login-form">
+    <form onSubmit={handleSubmit} className="login-form">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <button type="submit">Login</button>
+    </form>
   );
 }
 
-export default Login;
+export default React.memo(Login);

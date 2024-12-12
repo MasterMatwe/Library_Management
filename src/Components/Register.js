@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -7,7 +7,7 @@ function Register() {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:5000/api/register', {
@@ -19,6 +19,10 @@ function Register() {
       if (data.success) {
         alert('Registration successful');
         // TODO: Implement redirect or state update
+        // For example:
+        // history.push('/login'); // if using react-router
+        // or
+        // setIsRegistered(true); // if using a state to show login form after registration
       } else {
         alert(data.message);
       }
@@ -26,51 +30,49 @@ function Register() {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');
     }
-  };
+  }, [username, password, name, address, phone]);
 
   return (
-    <div className="register-form">
+    <form onSubmit={handleSubmit} className="register-form">
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
-    </div>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Full Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        required
+      />
+      <input
+        type="tel"
+        placeholder="Phone Number"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        required
+      />
+      <button type="submit">Register</button>
+    </form>
   );
 }
 
-export default Register;
+export default React.memo(Register);
