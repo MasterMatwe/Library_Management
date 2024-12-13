@@ -33,18 +33,28 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { username, password, name, address, phone } = req.body;
+  const { username, password, name, address, phone, email } = req.body;
   try {
+    // Check if username or email already exists
+    const checkUser = await pool.query(
+      'SELECT * FROM KHACHHANG WHERE tai_khoan = $1 OR email = $2',
+      [username, email]
+    );
+
+    if (checkUser.rows.length > 0) {
+      return res.status(400).json({ success: false, message: 'Username or email already exists' });
+    }
+
+    // If username and email are unique, proceed with registration
     await pool.query(
-      'INSERT INTO KHACHHANG (ten, dia_chi, sdt, tai_khoan, mat_khau) VALUES ($1, $2, $3, $4, $5)',
-      [name, address, phone, username, password]
+      'INSERT INTO KHACHHANG (ten, dia_chi, sdt, tai_khoan, mat_khau, email) VALUES ($1, $2, $3, $4, $5, $6)',
+      [name, address, phone, username, password, email]
     );
     res.json({ success: true, message: 'Registration successful' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Change name ' });
+    res.status(500).json({ success: false, message: 'Server error during registration' });
   }
 });
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

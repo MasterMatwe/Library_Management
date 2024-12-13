@@ -15,11 +15,6 @@ function Login() {
       const data = await response.json();
       if (data.success) {
         alert('Login successful');
-        // TODO: Implement redirect or state update
-        // For example:
-        // history.push('/dashboard'); // if using react-router
-        // or
-        // setUser(data.user); // if using a global state management
       } else {
         alert(data.message);
       }

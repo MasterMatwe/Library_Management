@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // Add this line
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
@@ -13,7 +14,7 @@ function Register() {
       const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, name, address, phone }),
+        body: JSON.stringify({ username, password, name, address, phone, email }), // Add email here
       });
       const data = await response.json();
       if (data.success) {
@@ -30,7 +31,7 @@ function Register() {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');
     }
-  }, [username, password, name, address, phone]);
+  }, [username, password, name, address, phone, email]); // Add email to dependency array
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
@@ -68,6 +69,13 @@ function Register() {
         placeholder="Phone Number"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
+        required
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         required
       />
       <button type="submit">Register</button>

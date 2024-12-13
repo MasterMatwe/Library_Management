@@ -11,7 +11,7 @@ function Auth() {
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 350); // Match this with your CSS transition duration
+      }, 300); // Match this with your CSS transition duration
       return () => clearTimeout(timer);
     }
   }, [isTransitioning]);
