@@ -15,7 +15,7 @@
     width: 100%;
     font-family: var(--font-family);
   }
-  .App {
+  body {
     background-image: url("./Picture/background.jpg");
     background-size: cover;
     background-position: center;
@@ -33,16 +33,21 @@
   .auth-container {
     position: relative;
     width: 100%;
-    min-width: 380px;
+    min-height: 320px;
+    min-width: 350px ;
     margin: 0.5rem auto;
     background-color: rgba(248, 249, 250, 0.13);
     border-radius: 15px;
     box-shadow: 0 0px 10px rgba(255, 255, 255, 0.1);
     overflow: hidden;
     transition: all 0.3s ease-in-out;
-    backdrop-filter: blur(7px);
+    backdrop-filter: blur(10px);
     font-family: var(--font-family);
     border: solid 1px rgba(248, 249, 250, 0.557);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .auth-container:hover {
@@ -58,22 +63,14 @@
     width: 100%;
     height: 100%;
     transition: opacity var(--transition-speed) ease-in-out;
-  }
-  
-  .forms-container.fade {
-    opacity: 0;
-  }
-  
-  .login-wrapper,
-  .register-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    padding: 5px;
-    box-sizing: border-box;
-
+    justify-content: center;
+  }
+  
+  .forms-container.fade {
+    opacity: 1;
   }
   
   .login-form,
@@ -82,11 +79,24 @@
     max-width: 340px;
     border: none;
     font-family: var(--font-family);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity var(--transition-speed);
   }
 
-  .login-form h2,
-  .register-form h2 {
+  .login-form h2
+  {
     margin-top: 10px;
+    color:aliceblue;
+    text-align: center;
+    width: 100%;
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 32px;
+  }
+  .register-form h2{
+    margin-top: 26px;
     color:aliceblue;
     text-align: center;
     width: 100%;
@@ -107,6 +117,7 @@
     box-sizing: border-box;
     font-family: var(--font-family);
     background-color: rgba(248, 249, 250, 0.12);
+    max-width: 300px;
 
   }
   
@@ -118,16 +129,16 @@
   
   .login-form input:hover,
   .register-form input:hover {
-    border-color: #adb5bd;
+    border-color: #c3cbd3;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
     filter: blur(0.5px);
   }
   
   .login-form input:focus,
   .register-form input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
     outline: none;
     filter: blur(0px);
     transition: all 0.3 ease-in-out;
@@ -164,6 +175,9 @@
     transition: color var(--transition-speed);
     outline: none;
     font-family: var(--font-family);
+    width: 100%;
+    text-align: center;
+
   }
   
   .toggle-btn:hover {
@@ -175,6 +189,10 @@
   .toggle-btn:focus {
     outline: none;
     text-decoration: solid;
+  }
+  .forms-container.toggle-btn {
+    align-self: center;
+    max-width: 300px;
   }
   
   @media (max-width: 600px) {
@@ -194,7 +212,7 @@
     .forms-container,
     .login-form,
     .register-form {
-      transition: opacity 0.25s ease-in-out;
+      transition: opacity 0.3s ease-in-out;
     }
   }
   /* Dark mode support */
@@ -218,7 +236,4 @@
       opacity: 1;
     }
   
-    .toggle-btn {
-      color: var(--primary-color);
-    }
   }

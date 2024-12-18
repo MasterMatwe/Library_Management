@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Auth.css';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(''); // Add this line
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
@@ -14,16 +17,12 @@ function Register() {
       const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, name, address, phone, email }), // Add email here
+        body: JSON.stringify({ username, password, name, address, phone, email }),
       });
       const data = await response.json();
       if (data.success) {
-        alert('Registration successful');
-        // TODO: Implement redirect or state update
-        // For example:
-        // history.push('/login'); // if using react-router
-        // or
-        // setIsRegistered(true); // if using a state to show login form after registration
+        alert('Registration successful. Please log in.');
+        navigate('/login');
       } else {
         alert(data.message);
       }
@@ -31,7 +30,7 @@ function Register() {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');
     }
-  }, [username, password, name, address, phone, email]); // Add email to dependency array
+  }, [username, password, name, address, phone, email, navigate]);
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
@@ -83,4 +82,4 @@ function Register() {
   );
 }
 
-export default React.memo(Register);
+export default Register;
