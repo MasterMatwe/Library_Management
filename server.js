@@ -9,8 +9,8 @@ app.use(express.json());
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'User Information',
-  password: '179328',
+  database: 'postgres',
+  password: '02032005',
   port: 5432,
 });
 
@@ -65,3 +65,110 @@ app.post('/api/register', async (req, res) => {
 });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.get('/api/books', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM Sach');
+    res.json({ success: true, books: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error while fetching books' });
+  }
+});
+app.post('/api/books', async (req, res) => {
+  const { ten_sach, mo_ta, tac_gia, nam_xuat_ban } = req.body;
+  try {
+    await pool.query(
+      'INSERT INTO Sach (ten_sach, mo_ta, tac_gia, nam_xuat_ban) VALUES ($1, $2, $3, $4)',
+      [ten_sach, mo_ta, tac_gia, nam_xuat_ban]
+    );
+    res.json({ success: true, message: 'Book added successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error while adding book' });
+  }
+});
+
+// Endpoint to delete a book by ID
+app.delete('/api/books/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('DELETE FROM Sach WHERE id = $1', [id]);
+    if (result.rowCount > 0) {
+      res.json({ success: true, message: 'Book deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Book not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error while deleting book' });
+  }
+});
+// Add this code to your server.js file
+
+// Endpoint to update a book by ID
+app.put('/api/books/:id', async (req, res) => {
+  const { id } = req.params;
+  const { ten_sach, mo_ta, tac_gia, nam_xuat_ban } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE Sach SET ten_sach = $1, mo_ta = $2, tac_gia = $3, nam_xuat_ban = $4 WHERE id = $5',
+      [ten_sach, mo_ta, tac_gia, nam_xuat_ban, id]
+    );
+
+    if (result.rowCount > 0) {
+      res.json({ success: true, message: 'Book updated successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Book not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error while updating book' });
+  }
+});
+app.get('/api/themuon', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM TheMuon');
+    res.json({ success: true, loanCards: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error while fetching loan cards' });
+  }
+});
+app.put('/api/themuon/:id', async (req, res) => {
+  const { id } = req.params; // Get the loan card ID from the URL parameters
+  const { id_nhan_vien } = req.body; // Get the employee ID from the request body
+
+  try {
+    // Update the loan card with the provided employee ID
+    const result = await pool.query(
+      'UPDATE TheMuon SET id_nhan_vien = $1 WHERE id = $2 RETURNING *',
+      [id_nhan_vien, id]
+    );
+
+    // Check if the loan card was found and updated
+    if (result.rows.length > 0) {
+      res.json({ success: true, message: 'Loan card updated successfully', loanCard: result.rows[0] });
+    } else {
+      res.status(404).json({ success: false, message: 'Loan card not found' });
+    }
+  } catch (err) {
+    console.error('Error updating loan card:', err);
+    res.status(500).json({ success: false, message: 'Server error while updating loan card' });
+  }
+});
+app.put('/api/confirm-return/:id', async (req, res) => {
+  const { id } = req.params;
+  const { ngay_tra_thuc_te } = req.body;
+
+  try {
+    const result = await pool.query('UPDATE TheMuon SET ngay_tra_thuc_te = $1 WHERE id = $2', [ngay_tra_thuc_te, id]);
+    if (result.rowCount > 0) {
+      res.json({ success: true, message: 'Ngày trả đã được cập nhật thành công.' });
+    } else {
+      res.json({ success: false, message: 'Thẻ mượn không tìm thấy.' });
+    }
+  } catch (error) {
+    console.error('Lỗi khi cập nhật ngày trả:', error);
+    res.status(500).json({ success: false, message: 'Lỗi máy chủ.' });
+  }
+});
