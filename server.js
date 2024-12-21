@@ -63,5 +63,14 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error during registration' });
   }
 });
+app.get('/api/books', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM SACH');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'An error occurred while fetching books' });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
