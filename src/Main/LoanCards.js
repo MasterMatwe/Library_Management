@@ -47,7 +47,26 @@ function LoanCards({ user }) {
     } catch (error) {
       console.error('Lỗi khi cập nhật thẻ mượn:', error);
     }
-};
+  };
+
+  const handleAssignEmployee = async (loanCardId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/themuon/${loanCardId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_nhan_vien: user.id }), // Ghi ID nhân viên từ user
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert('ID nhân viên đã được cập nhật thành công!');
+        fetchLoanCards(); // Làm mới danh sách thẻ mượn
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật ID nhân viên:', error);
+    }
+  };
 
   return (
     <div>
@@ -55,7 +74,7 @@ function LoanCards({ user }) {
       <div className="employee-info">
         <h2>Employee Information</h2>
         <p><strong>Name:</strong> {user.ten}</p> {/* Assuming user object has 'ten' for employee name */}
-        <p><strong>ID:</strong> {user.id_nhan_vien}</p> {/* Assuming user object has 'id_nhan_vien' */}
+        <p><strong>ID:</strong> {user.id}</p> {/* Assuming user object has 'id' for employee ID */}
       </div>
 
       <h2>Loan Cards</h2>
@@ -87,13 +106,15 @@ function LoanCards({ user }) {
               <td>{card.id}</td>
               <td>{card.id_khach_hang}</td>
               <td>{card.id_sach_muon}</td>
-              <td>{card.id_nhan_vien}</td>
+              <td>{card.id_nhan_vien || 'Chưa có ID'}</td>
               <td>{card.ngay_muon}</td>
               <td>{card.ngay_tra_du_dinh}</td>
-              <td>{card.ngay_tra_thuc_te || 'Not returned yet'}</td>
+              <td>{card.ngay_tra_thuc_te || 'Chưa trả'}</td>
               <td>
-                {card.ngay_tra_thuc_te === null && (
-                  <button onClick={() => handleConfirmReturn(card.id)}>Confirm Return</button>
+                {card.id_nhan_vien ? (
+                  <button onClick={() => handleConfirmReturn(card.id)}>Xác nhận trả</button>
+                ) : (
+                  <button onClick={() => handleAssignEmployee(card.id)}>Xác nhận nhân viên</button>
                 )}
               </td>
             </tr>

@@ -99,9 +99,9 @@ function EmployeeDashboard() {
     <div className="employee-dashboard">
       <h1 style={{ color: 'white' }}>Employee Dashboard</h1>
       {user && (
-        <div style={{ color: 'white' }}>
+        <div style={{ color: 'black' }}>
           <p>Welcome, {user.username}!</p> {/* Display user information */}
-          <p>Email: {user.email}</p> {/* Display additional user information */}
+          <p>Email: {user.role}</p> {/* Display additional user information */}
         </div>
       )}
       
