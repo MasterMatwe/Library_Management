@@ -74,7 +74,7 @@ app.post('/api/login', async (req, res) => {
           role,
           name: userInfo.ten,
           phone: userInfo.sdt,
-          ...(role === 0 ? { address: userInfo.dia_chi } : {}), // Thêm địa chỉ nếu là khách hàng
+          ...(role === 0 ? { address: userInfo.dia_chi,email:userInfo.email } : {}), // Thêm địa chỉ nếu là khách hàng
         },
       });
     } else {
@@ -111,8 +111,18 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error during registration' });
   }
 });
+app.get('/api/books-kh', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM SACH');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'An error occurred while fetching books' });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 app.get('/api/books', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM Sach');
@@ -218,5 +228,34 @@ app.put('/api/confirm-return/:id', async (req, res) => {
   } catch (error) {
     console.error('Lỗi khi cập nhật ngày trả:', error);
     res.status(500).json({ success: false, message: 'Lỗi máy chủ.' });
+  }
+});
+app.post('/api/themuon-kh', async (req, res) => {
+  const { id_khach_hang, id_sach_muon, ngay_muon, ngay_tra_du_dinh } = req.body;
+
+  try {
+    // Insert a new loan record into TheMuon table
+    const query = `
+      INSERT INTO TheMuon (id_khach_hang, id_sach_muon, ngay_muon, ngay_tra_du_dinh)
+      VALUES ($1, $2, $3, $4) RETURNING *;
+    `;
+    const values = [id_khach_hang, id_sach_muon, ngay_muon, ngay_tra_du_dinh];
+    const result = await pool.query(query, values);
+
+    // Check if the insertion was successful
+    if (result.rows.length > 0) {
+      // Update the book status to indicate it has been borrowed
+      await pool.query(
+        'UPDATE Sach SET trang_thai = $1 WHERE id = $2',
+        ['Đã có người mượn', id_sach_muon]
+      );
+
+      res.json({ success: true, message: 'Mượn sách thành công!', data: result.rows[0] });
+    } else {
+      res.json({ success: false, message: 'Không thể mượn sách.' });
+    }
+  } catch (error) {
+    console.error('Error borrowing book:', error);
+    res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi mượn sách.' });
   }
 });

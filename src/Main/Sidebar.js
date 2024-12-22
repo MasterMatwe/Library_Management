@@ -10,8 +10,8 @@ function Sidebar() {
       <div className="sidebar">
         <ul>
           <li><Link to="/customer-dashboard">Home</Link></li>
-          <li><Link to="/Profile">Profile</Link></li>
-          <li><Link to="/customer-dashboard/orders">Orders</Link></li>
+          <li><Link to="/customer-dashboard/profile">Profile</Link></li>
+          <li><Link to="/customer-dashboard/giohang">Orders</Link></li>
           <li><Link to="/customer-dashboard/support">Support</Link></li>
         </ul>
       </div>
