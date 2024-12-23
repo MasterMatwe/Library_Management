@@ -9,36 +9,82 @@ app.use(express.json());
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'postgres',
-  password: '02032005',
+  database: 'User Information',
+  password: '179328',
   port: 5432,
 });
 
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
+
   try {
-    const result = await pool.query(
+    // Kiểm tra tài khoản trong bảng Tai_khoan
+    const accountResult = await pool.query(
       'SELECT * FROM Tai_khoan WHERE tai_khoan = $1 AND mat_khau = $2',
       [username, password]
     );
-    if (result.rows.length > 0) {
-      const user = result.rows[0];
-      res.json({ success: true,
-         message: 'Login successful',
-          user: {
-            username: user.tai_khoan,
-            role: user.quyen
-            } 
+
+    if (accountResult.rows.length > 0) {
+      const account = accountResult.rows[0];
+      const role = account.quyen;
+
+      let userInfo = null;
+
+      // Nếu là khách hàng
+      if (role === 0) {
+        const customerResult = await pool.query(
+          'SELECT id, ten, dia_chi, sdt FROM KHACHHANG WHERE tai_khoan = $1',
+          [username]
+        );
+
+        if (customerResult.rows.length > 0) {
+          userInfo = customerResult.rows[0];
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: 'Không tìm thấy thông tin khách hàng',
           });
+        }
+      }
+
+      // Nếu là nhân viên
+      if (role === 1) {
+        const staffResult = await pool.query(
+          'SELECT id_nhan_vien AS id, ten, sdt FROM NHAN_VIEN WHERE tai_khoan = $1',
+          [username]
+        );
+
+        if (staffResult.rows.length > 0) {
+          userInfo = staffResult.rows[0];
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: 'Không tìm thấy thông tin nhân viên',
+          });
+        }
+      }
+
+      // Trả về thông tin đăng nhập
+      return res.json({
+        success: true,
+        message: 'Đăng nhập thành công',
+        user: {
+          id: userInfo.id,
+          username: account.tai_khoan,
+          role,
+          name: userInfo.ten,
+          phone: userInfo.sdt,
+          ...(role === 0 ? { address: userInfo.dia_chi } : {}), // Thêm địa chỉ nếu là khách hàng
+        },
+      });
     } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Thông tin đăng nhập không hợp lệ' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error' });
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ' });
   }
 });
-
 app.post('/api/register', async (req, res) => {
   const { username, password, name, address, phone, email } = req.body;
   try {
@@ -63,7 +109,7 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error during registration' });
   }
 });
-app.get('/api/books', async (req, res) => {
+app.get('/api/books-khachhang', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM SACH');
     res.json(result.rows);

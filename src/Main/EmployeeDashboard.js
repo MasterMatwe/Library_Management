@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import './EmployeeDashboard.css'; // Ensure to import your CSS file
-import LoanCards from './LoanCards'; // Import the LoanCards component
+import './EmployeeDashboard.css';
+import LoanCards from '../Components/LoanCards';
+import Sidebar from '../Components/Sidebar';
 
 function EmployeeDashboard() {
   const [books, setBooks] = useState([]);
   const [newBook, setNewBook] = useState({ ten_sach: '', mo_ta: '', tac_gia: '', nam_xuat_ban: '' });
   const [editBook, setEditBook] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [user, setUser ] = useState(null); // State to hold user information
-  const [activeTab, setActiveTab] = useState('books'); // State to manage active tab
+  const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState('books');
 
   useEffect(() => {
     fetchBooks();
-    const loggedInUser  = JSON.parse(localStorage.getItem('user')); // Retrieve user info from local storage
-    setUser (loggedInUser ); // Set user state
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    setUser(loggedInUser);
   }, []);
 
   const fetchBooks = async () => {
@@ -43,7 +44,7 @@ function EmployeeDashboard() {
         alert('Book added successfully!');
         setNewBook({ ten_sach: '', mo_ta: '', tac_gia: '', nam_xuat_ban: '' });
         setShowAddForm(false);
-        fetchBooks(); // Refresh the book list
+        fetchBooks();
       } else {
         alert(data.message);
       }
@@ -69,7 +70,7 @@ function EmployeeDashboard() {
       if (data.success) {
         alert('Book updated successfully!');
         setEditBook(null);
-        fetchBooks(); // Refresh the book list
+        fetchBooks();
       } else {
         alert(data.message);
       }
@@ -86,7 +87,7 @@ function EmployeeDashboard() {
       const data = await response.json();
       if (data.success) {
         alert('Book deleted successfully!');
-        fetchBooks(); // Refresh the book list
+        fetchBooks();
       } else {
         alert(data.message);
       }
@@ -97,110 +98,114 @@ function EmployeeDashboard() {
 
   return (
     <div className="employee-dashboard">
-      <h1 style={{ color: 'white' }}>Employee Dashboard</h1>
-      {user && (
-        <div style={{ color: 'white' }}>
-          <p>Welcome, {user.username}!</p> {/* Display user information */}
-          <p>Email: {user.email}</p> {/* Display additional user information */}
+      <Sidebar />
+      <div className="content-box">
+        {user && (
+          <div style={{ color: 'black' }}>
+            <p>Employee: {user.name}</p>
+            <p>Employee ID: {user.id}</p>
+          </div>
+        )}
+        
+        <div className="tab-navigation">
+          <button onClick={() => setActiveTab('books')}>Books</button>
+          <button onClick={() => setActiveTab('loanCards')}>Loan Cards</button>
         </div>
-      )}
-      
-      {/* Tab Navigation */}
-      <div className="tab-navigation">
-        <button onClick={() => setActiveTab('books')}>Books</button>
-        <button onClick={() => setActiveTab('loanCards')}>Loan Cards</button>
+
+        {activeTab === 'books' && (
+          <div>
+            <button 
+              className="add-book-button"
+              onClick={() => setShowAddForm(!showAddForm)}>
+              {showAddForm ? 'Cancel' : 'Add New Book'}
+            </button>
+
+            {showAddForm && (
+              <form onSubmit={handleAddBook}>
+                <input
+                  type="text"
+                  placeholder="Tên sách"
+                  value={newBook.ten_sach}
+                  onChange={(e) => setNewBook({ ...newBook, ten_sach: e.target.value })}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Mô tả"
+                  value={newBook.mo_ta}
+                  onChange={(e) => setNewBook({ ...newBook, mo_ta: e.target.value })}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Tác giả"
+                  value={newBook.tac_gia}
+                  onChange={(e) => setNewBook({ ...newBook, tac_gia: e.target.value })}
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Năm xuất bản"
+                  value={newBook.nam_xuat_ban}
+                  onChange={(e) => setNewBook({ ...newBook, nam_xuat_ban: e.target.value })}
+                  required
+                />
+                <button type="submit">Add Book</button>
+              </form>
+            )}
+
+            {editBook && (
+              <form onSubmit={handleUpdateBook}>
+                <input
+                  type="text"
+                  placeholder="Tên sách"
+                  value={editBook.ten_sach}
+                  onChange={(e) => setEditBook({ ...editBook, ten_sach: e.target.value })}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Mô tả"
+                  value={editBook.mo_ta}
+                  onChange={(e) => setEditBook({ ...editBook, mo_ta: e.target.value })}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Tác giả"
+                  value={editBook.tac_gia}
+                  onChange={(e) => setEditBook({ ...editBook, tac_gia: e.target.value })}
+                  required
+                />
+                <input
+                  type="number"
+                  placeholder="Năm xuất bản"
+                  value={editBook.nam_xuat_ban}
+                  onChange={(e) => setEditBook({ ...editBook, nam_xuat_ban: e.target.value })}
+                  required
+                />
+                <button type="submit">Update Book</button>
+              </form>
+            )}
+
+            <ul>
+              {books.map((book) => (
+                <al key={book.id}>
+                  {book.ten_sach} - {book.tac_gia} ({book.nam_xuat_ban})
+                  <div>
+                    <button onClick={() => handleEditBook(book.id)}>Edit</button>
+                    <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
+                  </div>
+                </al>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {activeTab === 'loanCards' && (
+          <LoanCards user={user} />
+        )}
       </div>
-
-      {/* Conditional Rendering of Tabs */}
-      {activeTab === 'books' && (
-        <div>
-          <button onClick ={() => setShowAddForm(!showAddForm)}>
-            {showAddForm ? 'Cancel' : ' Add New Book'}
-          </button>
-
-          {showAddForm && (
-            <form onSubmit={handleAddBook}>
-              <input
-                type="text"
-                placeholder="Tên sách"
-                value={newBook.ten_sach}
-                onChange={(e) => setNewBook({ ...newBook, ten_sach: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Mô tả"
-                value={newBook.mo_ta}
-                onChange={(e) => setNewBook({ ...newBook, mo_ta: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Tác giả"
-                value={newBook.tac_gia}
-                onChange={(e) => setNewBook({ ...newBook, tac_gia: e.target.value })}
-                required
-              />
-              <input
-                type="number"
-                placeholder="Năm xuất bản"
-                value={newBook.nam_xuat_ban}
-                onChange={(e) => setNewBook({ ...newBook, nam_xuat_ban: e.target.value })}
-                required
-              />
-              <button type="submit">Add Book</button>
-            </form>
-          )}
-
-          {editBook && (
-            <form onSubmit={handleUpdateBook}>
-              <input
-                type="text"
-                placeholder="Tên sách"
-                value={editBook.ten_sach}
-                onChange={(e) => setEditBook({ ...editBook, ten_sach: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Mô tả"
-                value={editBook.mo_ta}
-                onChange={(e) => setEditBook({ ...editBook, mo_ta: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Tác giả"
-                value={editBook.tac_gia}
-                onChange={(e) => setEditBook({ ...editBook, tac_gia: e.target.value })}
-                required
-              />
-              <input
-                type="number"
-                placeholder="Năm xuất bản"
-                value={editBook.nam_xuat_ban}
-                onChange={(e) => setEditBook({ ...editBook, nam_xuat_ban: e.target.value })}
-                required
-              />
-              <button type="submit">Update Book</button>
-            </form>
-          )}
-
-          <ul>
-            {books.map(book => (
-              <li key={book.id}>
-                {book.ten_sach} - {book.tac_gia}
-                <button onClick={() => handleEditBook(book.id)}>Edit</button>
-                <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {activeTab === 'loanCards' && (
-        <LoanCards user={user} />
-      )}
     </div>
   );
 }

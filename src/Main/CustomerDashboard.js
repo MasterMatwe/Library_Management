@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Components/Sidebar';
 import './CustomerDashboard.css';
 import { Outlet } from'react-router-dom';
 
@@ -12,7 +12,7 @@ function CustomerDashboard() {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/books');
+      const response = await fetch('http://localhost:5000/api/books-khachhang');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

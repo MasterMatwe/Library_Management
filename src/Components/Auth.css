@@ -16,10 +16,6 @@
     font-family: var(--font-family);
   }
   body {
-    background-image: url("./Picture/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -28,6 +24,7 @@
     margin: 0%;
     padding: 0%;
     font-family: var(--font-family);
+    background-color: #161415;
   }
 
   .auth-container {
@@ -36,7 +33,7 @@
     min-height: 320px;
     min-width: 350px ;
     margin: 0.5rem auto;
-    background-color: rgba(248, 249, 250, 0.1);
+    background-color: #f3e1c7;
     border-radius: 15px;
     box-shadow: 0 0px 10px rgba(255, 255, 255, 0.1);
     overflow: hidden;
@@ -53,9 +50,6 @@
   .auth-container:hover {
     transform: translateY(-1.4%);
     transition: all 0.3s ease-in-out;
-    border: solid 1px #007bff;
-    box-shadow: 0 0 30px rgba(0, 123, 255, 0.5);
-    filter: blur(0px) brightness(0.5px);
   }
   
   .forms-container {
@@ -88,7 +82,7 @@
   .login-form h2
   {
     margin-top: 10px;
-    color:rgb(255, 255, 255);
+    color:#f45325;
     text-align: center;
     width: 100%;
     font-family: var(--font-family);
@@ -97,7 +91,7 @@
   }
   .register-form h2{
     margin-top: 26px;
-    color:rgb(255, 255, 255);
+    color:#f45325;
     text-align: center;
     width: 100%;
     font-family: var(--font-family);
@@ -116,7 +110,6 @@
     font-size: 16px;
     box-sizing: border-box;
     font-family: var(--font-family);
-    background-color: rgba(248, 249, 250, 0.12);
     max-width: 300px;
 
   }
@@ -132,21 +125,19 @@
     border-color: #c3cbd3;
     transition: all 0.3s ease-in-out;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    filter: blur(0.5px);
   }
   
   .login-form input:focus,
   .register-form input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 10px rgba(0, 123, 255, 1);
+    border-color: #c6401b;
+    box-shadow: 0 0 10px rgba(255, 64, 0, 0.5);
     outline: none;
-    filter: blur(0px);
     transition: all 0.3 ease-in-out;
   }
   
   .login-form button,
   .register-form button {
-    background-color: var(--primary-color);
+    background-color:#f45325;
     color: white;
     border: none;
     font-size: 17px;
@@ -156,8 +147,8 @@
   
   .login-form button:hover,
   .register-form button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    background-color: #c6401b;
+    box-shadow: 0 0 10px rgba(255, 64, 0, 0.5);
     filter: blur(0px);
     transition: all 0.3s ease-in-out;
   }
@@ -168,7 +159,7 @@
     background-color: transparent;
     border-color: transparent;
     border: none;
-    color: #58a9ff;
+    color: #f45325;
     cursor: pointer;
     padding: 10px;
     font-size: 14.5px;
@@ -181,7 +172,7 @@
   }
   
   .toggle-btn:hover {
-    color: #0058b5;
+    color: #c6401b;
     background-color: transparent;
     border-color: transparent;
   }
@@ -229,8 +220,7 @@
   
     .login-form input,
     .register-form input {
-      background-color:rgba(255, 255, 255, 0);
-      color: #ffffff;
+      background-color:rgba(255, 255, 255, 1);
       border-color: var(--secondary-color);
       font-weight: 300;
       opacity: 1;

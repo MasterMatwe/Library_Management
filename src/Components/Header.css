@@ -4,9 +4,9 @@
     left: 0;
     right: 0;
     height: 60px;
-    color: white;
+    color: #f3e1c7;
     z-index: 1000;
-    background-color: #004793;
+    background-color: #161415;
 }
   .header-content {
     display: flex;
@@ -18,10 +18,11 @@
   
   .header h1 {
     margin: 0;
-    font-size: 30px;
-    margin-left: -195px;
+    font-size: 40px;
+    margin-left: -215px;
     margin-top: 10px;
-    color: #ffffff
+    color: #f3e1c7;
+    font-style: italic;
   }
   
   .user-info {
@@ -34,8 +35,8 @@
   }
   
   .user-info button {
-    background-color: white;
-    color: #007bff;
+    background-color: #f45325;
+    color: #f3e1c7;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -43,10 +44,10 @@
   }
   .user-info li a {
     text-decoration: none;
-    color: aliceblue;
+    color: #f3e1c7;
   }
   .user-info li a:hover {
     text-decoration: none;
-    color: #ff0000;
+    color: #f45325;
     transition: all 0.3s ease-in-out;
   }

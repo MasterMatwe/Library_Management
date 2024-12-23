@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import './LoanCards.css';
 
-function LoanCards({ user }) {
+function LoanCards() {
   const [loanCards, setLoanCards] = useState([]);
   const [searchId, setSearchId] = useState('');
   const [filteredLoanCards, setFilteredLoanCards] = useState([]);
@@ -11,11 +12,11 @@ function LoanCards({ user }) {
 
   const fetchLoanCards = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/themuon'); // Fetch all loan cards
+      const response = await fetch('http://localhost:5000/api/themuon');
       const data = await response.json();
       if (data.success) {
         setLoanCards(data.loanCards);
-        setFilteredLoanCards(data.loanCards); // Initialize filtered loan cards
+        setFilteredLoanCards(data.loanCards);
       } else {
         alert(data.message);
       }
@@ -25,7 +26,6 @@ function LoanCards({ user }) {
   };
 
   const handleSearch = () => {
-    // Filter loan cards based on the search ID
     const filtered = loanCards.filter(card => card.id.toString().includes(searchId));
     setFilteredLoanCards(filtered);
   };
@@ -35,40 +35,34 @@ function LoanCards({ user }) {
       const response = await fetch(`http://localhost:5000/api/confirm-return/${loanCardId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ngay_tra_thuc_te: new Date().toISOString().split('T')[0] }), // Ghi lại ngày hiện tại
+        body: JSON.stringify({ ngay_tra_thuc_te: new Date().toISOString().split('T')[0] }),
       });
       const data = await response.json();
       if (data.success) {
         alert('Ngày trả đã được xác nhận thành công!');
-        fetchLoanCards(); // Làm mới danh sách thẻ mượn
+        fetchLoanCards();
       } else {
         alert(data.message);
       }
     } catch (error) {
       console.error('Lỗi khi cập nhật thẻ mượn:', error);
     }
-};
+  };
 
   return (
-    <div>
-      {/* Display Employee Information */}
-      <div className="employee-info">
-        <h2>Employee Information</h2>
-        <p><strong>Name:</strong> {user.ten}</p> {/* Assuming user object has 'ten' for employee name */}
-        <p><strong>ID:</strong> {user.id_nhan_vien}</p> {/* Assuming user object has 'id_nhan_vien' */}
-      </div>
-
+    <div className="loan-cards-container">
       <h2>Loan Cards</h2>
-      <div style={{ marginBottom: '20px' }}>
+      <div className="search-container">
         <input
           type="text"
           placeholder="Search by Loan ID"
           value={searchId}
           onChange={(e) => setSearchId(e.target.value)}
+          className="search-input"
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} className="search-button">Search</button>
       </div>
-      <table>
+      <table className="loan-cards-table">
         <thead>
           <tr>
             <th>Loan ID</th>
@@ -78,7 +72,7 @@ function LoanCards({ user }) {
             <th>Loan Date</th>
             <th>Due Date</th>
             <th>Return Date</th>
-            <th>Action</th> {/* New column for action */}
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -93,7 +87,12 @@ function LoanCards({ user }) {
               <td>{card.ngay_tra_thuc_te || 'Not returned yet'}</td>
               <td>
                 {card.ngay_tra_thuc_te === null && (
-                  <button onClick={() => handleConfirmReturn(card.id)}>Confirm Return</button>
+                  <button 
+                    onClick={() => handleConfirmReturn(card.id)}
+                    className="confirm-return-button"
+                  >
+                    Confirm Return
+                  </button>
                 )}
               </td>
             </tr>
