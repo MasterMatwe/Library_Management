@@ -101,7 +101,7 @@ function EmployeeDashboard() {
       <Sidebar />
       <div className="content-box">
         {user && (
-          <div style={{ color: 'black' }}>
+          <div style={{ color: '#DCCAA8' }}>
             <p>Employee: {user.name}</p>
             <p>Employee ID: {user.id}</p>
           </div>

@@ -1,0 +1,125 @@
+:root {
+    --main-color: #161415;
+    --second-color: #f3e1c7;
+    --third-color: #dccaa8;
+    --fourth-color: #f45325;
+    --fifth-color: #252123;
+    --sixth-color: #c6401b;
+    --seventh-color: #dcdcdc;
+    --eighth-color: #f2f2f2;
+  }
+
+.giohang-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 24px;
+    background-color: var(--fifth-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+    margin-top: 100px;
+}
+
+.giohang-container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    transform: scale(101%)
+}
+
+.giohang-container h2 {
+    color: var(--third-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28x;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.giohang-table {
+    width: 100%;    
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    background-color: transparent;
+}
+
+.giohang-table th,
+.giohang-table td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.giohang-table th {
+    background-color: var(--fourth-color);
+    color: var(--second-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    border-radius: 8px 8px 0 0;
+}
+
+.giohang-table tr {
+    background-color: #161415;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    
+}
+
+.giohang-table tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.giohang-table td {
+    color: var(--third-color);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.giohang-table td:first-child,
+.giohang-table th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.giohang-table td:last-child,
+.giohang-table th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+@media (max-width: 768px) {
+    .giohang-container {
+        padding: 30px 20px;
+        margin: 20px auto;
+    }
+
+    .giohang-table {
+        font-size: 14px;
+    }
+
+    .giohang-table th,
+    .giohang-table td {
+        padding: 15px;
+    }
+
+    .giohang-container h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .giohang-container {
+        padding: 20px 15px;
+    }
+
+    .giohang-table th,
+    .giohang-table td {
+        padding: 10px;
+    }
+
+    .giohang-container h2 {
+        font-size: 24px;
+    }
+}

@@ -1,3 +1,14 @@
+:root {
+  --main-color: #161415;
+  --second-color: #f3e1c7;
+  --third-color: #dccaa8;
+  --fourth-color: #f45325;
+  --fifth-color: #252123;
+  --sixth-color: #c6401b;
+  --seventh-color: #dcdcdc;
+  --eighth-color: #f2f2f2;
+}
+
 .customer-dashboard {
   display: flex;
   height: 100vh; /* Full viewport height */
@@ -12,35 +23,10 @@
   display: flex;
   flex-direction: column;
   margin-top: -40px;
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
-}
-
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.main-content h1 {
-  color: #333;
-  margin-bottom: 20px;
 }
 
 .table-box {
-  background-color: #ffffff;
+  background-color: var(--fifth-color);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -50,54 +36,33 @@
   flex-direction: column;
   overflow: hidden; /* Hide overflow for child elements */
 }
-
-.table-box::-webkit-scrollbar {
-  width: 8px;
+.book-table button {
+  color: var(--third-color);
+  background-color: var(--fourth-color);
+  border: none;
+  border-radius: 4px;
+  padding: 7px;
+  transition: all 0.3s ease-in-out;
 }
 
-.table-box::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+.book-table button:hover {
+  background-color: var(--sixth-color);
+  transform: scale(110%);
+}
+.book-table button:active {
+  transform: scale(90%);
 }
 
-.table-box::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.table-box::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 .table-box h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: var(--third-color);
   font-size: 1.5em;
 }
 
 .book-table-container {
   overflow-y: auto; /* Add scroll for table content */
   flex-grow: 1; /* Allow it to fill remaining space */
-  scrollbar-width: 8px;
-  scrollbar-color: #888 #f1f1f1;
-}
-.book-table-container::-webkit-scrollbar {
-  width: 8px;
-  border-radius:10px;
-}
-
-.book-table-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.book-table-container::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.book-table-container:-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
 
 .book-table {
@@ -108,26 +73,28 @@
 
 .book-table th,
 .book-table td {
-  border: 1px solid #e0e0e0;
   padding: 12px;
   text-align: left;
 }
 
 .book-table th {
-  background-color: #f5f5f5;
+  background-color: var(--main-color);
   font-weight: bold;
-  color: #333;
+  color: var(--second-color);
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
 .book-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: var(--main-color);
 }
 
-.book-table tr:hover {
-  background-color: #f0f0f0;
+.book-table tr{
+  background-color: var(--fifth-color);
+}
+.book-table td {
+  color: var(--third-color);
 }
 
 /* Rounded corners for the first and last rows */

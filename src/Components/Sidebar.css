@@ -7,7 +7,7 @@
   left: 0;
   top: 0;
   z-index: 1001;
-  background-color: #161415;
+  background-color: #252123;
 }
 
 .sidebar {
@@ -35,7 +35,7 @@
   text-decoration: none;
   color: #dccaa8;
   font-size: 16px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,4 +44,5 @@
 
 .sidebar ul li a:hover {
   color: #f3e1c7;
+  transform: scale(115%);
 }
