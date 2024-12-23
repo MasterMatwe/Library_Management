@@ -5,7 +5,8 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import CustomerDashboard from './Main/CustomerDashboard';
 import EmployeeDashboard from './Main/EmployeeDashboard';
 import Unauthorized from './Components/Unauthorized';
-import Giohang from './Main/giohang'; // Import your Giohang component
+import Giohang from './Main/giohang';
+import Profile from './Main/profile';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             </ProtectedRoute>
           } 
         >
+          <Route path="profile" element={<Profile />} />
           <Route path="giohang" element={<Giohang />} />
         </Route>
         <Route 
