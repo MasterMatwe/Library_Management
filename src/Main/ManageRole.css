@@ -1,0 +1,133 @@
+:root {
+    --main-color: #161415;
+    --second-color: #f3e1c7;
+    --third-color: #dccaa8;
+    --fourth-color: #f45325;
+    --fifth-color: #252123;
+    --sixth-color: #c6401b;
+    --seventh-color: #dcdcdc;
+    --eighth-color: #f2f2f2;
+  }
+  
+  .manage-role-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--fifth-color);
+  }
+  
+  .manage-role-container h2 {
+    color: var(--second-color);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1px;
+  }
+  
+  .user-table-role {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .user-table-role th,
+  .user-table-role td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--seventh-color);
+  }
+  
+  .user-table-role th {
+    background-color: var(--fourth-color);
+    color: var(--second-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .user-table-role tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .user-table-role tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-table-role td {
+    color: var(--seventh-color);
+  }
+  
+  .user-table-role button {
+    background-color: var(--fourth-color);
+    color: var(--second-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .user-table-role button:hover {
+    background-color: var(--sixth-color);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .user-table-role button:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  
+  @media (max-width: 768px) {
+    .manage-role-container {
+      padding: 1rem;
+    }
+  
+    .user-table th,
+    .user-table td {
+      padding: 0.75rem;
+    }
+  }
+  .search-container-role {
+    margin-bottom: 1rem;
+  }
+  
+  .search-input-role {
+    width: 25%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--seventh-color);
+    border-radius: 4px;
+    background-color: var(--fifth-color);
+    color: var(--main-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .search-input-role::placeholder {
+    color: var(--seventh-color);
+  }
+  .search-input-role:hover {
+    background-color: var(--eighth-color);
+    box-shadow: 0 0 0 3px rgba(244, 83, 37, 0.1);
+    transform: scale(1.02);
+    
+  }
+  
+  .search-input-role:focus {
+    outline: none;
+    border-color: var(--fourth-color);
+    box-shadow: 0 0 0 2px rgba(244, 83, 37, 0.2);
+    width: 80%;
+    color: var(--main-color);
+    transform: scale(1.02);
+    background-color: var(--eighth-color);
+  }

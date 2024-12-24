@@ -9,7 +9,7 @@ function Header() {
         <h1>ReLiB</h1>
         <div className="user-info">
           <span>Welcome, {user.username} !</span>
-          <button onClick={() => console.log('Notifications')}>Notifications</button>
+          <button onClick={() => console.log('Notifications')}>🔔</button>
           <li>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
               <path d="M16 13v-2H7V8l-5 4 5 4v-3z"/>

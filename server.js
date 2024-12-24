@@ -97,7 +97,7 @@ app.post('/api/register', async (req, res) => {
     );
 
     if (checkUser.rows.length > 0) {
-      return res.status(400).json({ success: false, message: 'Username or email already exists' });
+      return res.status(400).json({ success: false, message: 'Tên tài khoản hoặc email đã tồn tại' });
     }
 
     // If username and email are unique, proceed with registration
@@ -105,10 +105,10 @@ app.post('/api/register', async (req, res) => {
       'INSERT INTO KHACHHANG (ten, dia_chi, sdt, tai_khoan, mat_khau, email) VALUES ($1, $2, $3, $4, $5, $6)',
       [name, address, phone, username, password, email]
     );
-    res.json({ success: true, message: 'Registration successful' });
+    res.json({ success: true, message: 'Đăng kí thành công' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error during registration' });
+    res.status(500).json({ success: false, message: 'Lỗi kết nối khi đang đăng kí' });
   }
 });
 app.get('/api/books-kh', async (req, res) => {
@@ -117,7 +117,7 @@ app.get('/api/books-kh', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'An error occurred while fetching books' });
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy thông tin sách' });
   }
 });
 const PORT = process.env.PORT || 5000;
@@ -129,7 +129,7 @@ app.get('/api/books', async (req, res) => {
     res.json({ success: true, books: result.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while fetching books' });
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy thông tin sách' });
   }
 });
 app.post('/api/books', async (req, res) => {
@@ -139,10 +139,10 @@ app.post('/api/books', async (req, res) => {
       'INSERT INTO Sach (ten_sach, mo_ta, tac_gia, nam_xuat_ban) VALUES ($1, $2, $3, $4)',
       [ten_sach, mo_ta, tac_gia, nam_xuat_ban]
     );
-    res.json({ success: true, message: 'Book added successfully' });
+    res.json({ success: true, message: 'Thêm sách thành công' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while adding book' });
+    res.status(500).json({ success: false, message: 'Lỗi khi thêm sách' });
   }
 });
 
@@ -152,18 +152,16 @@ app.delete('/api/books/:id', async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM Sach WHERE id = $1', [id]);
     if (result.rowCount > 0) {
-      res.json({ success: true, message: 'Book deleted successfully' });
+      res.json({ success: true, message: 'Sách được xóa thành công' });
     } else {
-      res.status(404).json({ success: false, message: 'Book not found' });
+      res.status(404).json({ success: false, message: 'Không tìm thấy sách' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while deleting book' });
+    res.status(500).json({ success: false, message: 'Lỗi khi xóa sách' });
   }
 });
-// Add this code to your server.js file
 
-// Endpoint to update a book by ID
 app.put('/api/books/:id', async (req, res) => {
   const { id } = req.params;
   const { ten_sach, mo_ta, tac_gia, nam_xuat_ban } = req.body;
@@ -174,13 +172,13 @@ app.put('/api/books/:id', async (req, res) => {
     );
 
     if (result.rowCount > 0) {
-      res.json({ success: true, message: 'Book updated successfully' });
+      res.json({ success: true, message: 'Sách đã được cập nhật thành công' });
     } else {
-      res.status(404).json({ success: false, message: 'Book not found' });
+      res.status(404).json({ success: false, message: 'Không tìm thấy sách' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while updating book' });
+    res.status(500).json({ success: false, message: 'Lỗi khi cập nhật sách' });
   }
 });
 app.get('/api/themuon', async (req, res) => {
@@ -189,7 +187,7 @@ app.get('/api/themuon', async (req, res) => {
     res.json({ success: true, loanCards: result.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while fetching loan cards' });
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy thông tin thẻ mượn' });
   }
 });
 app.put('/api/themuon/:id', async (req, res) => {
@@ -205,13 +203,13 @@ app.put('/api/themuon/:id', async (req, res) => {
 
     // Check if the loan card was found and updated
     if (result.rows.length > 0) {
-      res.json({ success: true, message: 'Loan card updated successfully', loanCard: result.rows[0] });
+      res.json({ success: true, message: 'Thẻ mượn được cập nhật thành công', loanCard: result.rows[0] });
     } else {
-      res.status(404).json({ success: false, message: 'Loan card not found' });
+      res.status(404).json({ success: false, message: 'Không tìm thấy thẻ mượn' });
     }
   } catch (err) {
     console.error('Error updating loan card:', err);
-    res.status(500).json({ success: false, message: 'Server error while updating loan card' });
+    res.status(500).json({ success: false, message: 'Lỗi khi cập nhật thẻ mượn' });
   }
 });
 app.put('/api/confirm-return/:id', async (req, res) => {
@@ -272,6 +270,36 @@ app.get('/api/themuon/:id/with-book-names', async (req, res) => {
     res.json({ success: true, loanCards: result.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Server error while fetching loan cards' });
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy thông tin thẻ mượn' });
+  }
+});
+// Endpoint to fetch all users
+app.get('/api/users', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT tai_khoan, quyen FROM tai_khoan');
+    res.json({ success: true, users: result.rows });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi lấy thông tin người dùng' });
+  }
+});
+
+// Endpoint to change user role
+app.put('/api/change-role', async (req, res) => {
+  const { tai_khoan, quyen } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE tai_khoan SET quyen = $1 WHERE tai_khoan = $2 RETURNING tai_khoan, quyen',
+      [quyen, tai_khoan]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy người dùng' });
+    }
+
+    res.json({ success: true, user: result.rows[0] });
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    res.status(500).json({ success: false, message: 'Lỗi khi cập nhật quyền' });
   }
 });

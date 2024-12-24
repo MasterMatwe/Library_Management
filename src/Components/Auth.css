@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --background-color: #f8f9fa;
-    --text-color: #333;
     --transition-speed: 0.3s;
     --font-family: 'Outfit', sans-serif
+    --main-color: #161415;
+    --second-color: #f3e1c7;
+    --third-color: #dccaa8;
+    --fourth-color: #f45325;
+    --fifth-color: #252123;
+    --sixth-color: #c6401b;
+    --seventh-color: #dcdcdc;
+    --eighth-color: #f2f2f2;
   }
 
   body,html {
@@ -33,14 +37,13 @@
     min-height: 320px;
     min-width: 350px ;
     margin: 0.5rem auto;
-    background-color: #f3e1c7;
+    background-color: var(--fifth-color);
     border-radius: 15px;
-    box-shadow: 0 0px 10px rgba(255, 255, 255, 0.1);
     overflow: hidden;
     transition: all 0.3s ease-in-out;
     backdrop-filter: blur(10px);
     font-family: var(--font-family);
-    border: solid 1px rgba(248, 249, 250, 0.557);
+    border: solid 2px black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -220,7 +223,7 @@
   
     .login-form input,
     .register-form input {
-      background-color:rgba(255, 255, 255, 1);
+      background-color: var(--fifth-color);
       border-color: var(--secondary-color);
       font-weight: 300;
       opacity: 1;

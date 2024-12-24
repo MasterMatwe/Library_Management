@@ -7,6 +7,7 @@ import EmployeeDashboard from './Main/EmployeeDashboard';
 import Unauthorized from './Components/Unauthorized';
 import Giohang from './Main/giohang';
 import Profile from './Main/profile';
+import ManageRole from './Main/ManageRole';
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
               <EmployeeDashboard />
             </ProtectedRoute>
           } 
-        />
+        >
+          <Route path="ManageRole" element={<ManageRole />} />
+        </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/" element={<Auth />} />
       </Routes>
